@@ -19,15 +19,16 @@ Se aplicaron distintos **algoritmos de ordenamiento y búsqueda** para comparar 
 
 ## 🧠 Algoritmos implementados  
 
-### 🔎 Búsqueda
-- Búsqueda Lineal  
-- Búsqueda Binaria  
 
 ### 📊 Ordenamiento  
 - Bubble Sort  
 - Insertion Sort  
 - Selection Sort  
-- QuickSort  
+- QuickSort
+
+### 🔎 Búsqueda
+- Búsqueda Lineal  
+- Búsqueda Binaria  
 
 ---
 
