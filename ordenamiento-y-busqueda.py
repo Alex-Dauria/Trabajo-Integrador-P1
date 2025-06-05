@@ -1,115 +1,137 @@
 import random
 import time
 
-# --------------------------------------------------------------------------------------------
+# ----------------------------
 # ALGORITMOS DE ORDENAMIENTO
+# ----------------------------
 
-def bubble_sort(lista):
-    n = len(lista)
+def bubble_sort(arr):
+    n = len(arr)
     for i in range(n):
         for j in range(0, n - i - 1):
-            if lista[j] > lista[j + 1]:
-                lista[j], lista[j + 1] = lista[j + 1], lista[j]
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
 
-def insertion_sort(lista):
-    for i in range(1, len(lista)):
-        clave = lista[i]
+def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
         j = i - 1
-        while j >= 0 and clave < lista[j]:
-            lista[j + 1] = lista[j]
+        while j >= 0 and key < arr[j]:
+            arr[j + 1] = arr[j]
             j -= 1
-        lista[j + 1] = clave
+        arr[j + 1] = key
 
-def selection_sort(lista):
-    n = len(lista)
+def selection_sort(arr):
+    n = len(arr)
     for i in range(n):
         min_idx = i
         for j in range(i + 1, n):
-            if lista[j] < lista[min_idx]:
+            if arr[j] < arr[min_idx]:
                 min_idx = j
-        lista[i], lista[min_idx] = lista[min_idx], lista[i]
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
 
-def quicksort(lista):
-    if len(lista) <= 1:
-        return lista
-    pivote = lista[0]
-    menores = [x for x in lista[1:] if x <= pivote]
-    mayores = [x for x in lista[1:] if x > pivote]
-    return quicksort(menores) + [pivote] + quicksort(mayores)
+def quicksort(arr):
+    if len(arr) <= 1:
+        return arr
+    pivot = arr[0]
+    menores = [x for x in arr[1:] if x <= pivot]
+    mayores = [x for x in arr[1:] if x > pivot]
+    return quicksort(menores) + [pivot] + quicksort(mayores)
 
-# --------------------------------------------------------------------------------------------
+# ------------------------
 # ALGORITMOS DE BÚSQUEDA
+# ------------------------
 
-def busqueda_lineal(lista, objetivo):
-    for i, valor in enumerate(lista):
-        if valor == objetivo:
+def linear_search(arr, target):
+    for i, val in enumerate(arr):
+        if val == target:
             return i
     return -1
 
-def busqueda_binaria(lista, objetivo):
-    izquierda, derecha = 0, len(lista) - 1
-    while izquierda <= derecha:
-        medio = (izquierda + derecha) // 2
-        if lista[medio] == objetivo:
-            return medio
-        elif lista[medio] < objetivo:
-            izquierda = medio + 1
+def binary_search(arr, target):
+    left, right = 0, len(arr)-1
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
         else:
-            derecha = medio - 1
+            right = mid - 1
     return -1
 
-# --------------------------------------------------------------------------------------------
+# ------------------------
 # FUNCIONES AUXILIARES
+# ------------------------
 
-def generar_lista_aleatoria(tamaño, minimo=1, maximo=10000):
-    return [random.randint(minimo, maximo) for _ in range(tamaño)]
+def generate_random_list(size, lower=1, upper=10000):
+    return [random.randint(lower, upper) for _ in range(size)]
 
-def medir_tiempo(funcion, *args):
-    inicio = time.perf_counter()
-    resultado = funcion(*args)
-    fin = time.perf_counter()
-    return fin - inicio, resultado
+def measure_time(func, *args):
+    start = time.perf_counter()
+    result = func(*args)
+    end = time.perf_counter()
+    return end - start, result
 
-# --------------------------------------------------------------------------------------------
+# ------------------------
 # PROGRAMA PRINCIPAL
+# ------------------------
 
 def main():
-    print("Simulación de búsqueda y ordenamiento en logística\n")
+    print("📦 Simulación de búsqueda y ordenamiento en un sistema logístico\n")
 
     tamaño_lista = 1000
-    lista = generar_lista_aleatoria(tamaño_lista)
+    lista_original = generate_random_list(tamaño_lista)
+    objetivo = lista_original[tamaño_lista // 2]
 
-    objetivo = lista[tamaño_lista // 2]
+    print(f"Se generó una lista de {tamaño_lista} productos aleatorios.")
+    print(f"El producto a localizar tiene el código: {objetivo}\n")
 
-    print(f"Lista generada con {tamaño_lista} elementos.")
-    print(f"Buscaremos el número {objetivo} para simular búsqueda de producto.\n")
+    # Búsqueda en lista desordenada
+    tiempo_lineal, pos_lineal = measure_time(linear_search, lista_original, objetivo)
+    print(f"🔍 Búsqueda lineal (depósito desordenado): producto encontrado en el casillero {pos_lineal}, tiempo = {tiempo_lineal:.6f} segundos")
 
-    # 1. Búsqueda Lineal en lista desordenada
-    tiempo_lineal, indice_lineal = medir_tiempo(busqueda_lineal, lista, objetivo)
-    print(f"Búsqueda Lineal (lista desordenada): índice {indice_lineal}, tiempo {tiempo_lineal:.6f} segundos")
+    tiempo_binaria_desordenada, pos_binaria_desordenada = measure_time(binary_search, lista_original, objetivo)
+    print(f"🔍 Búsqueda binaria (depósito desordenado): resultado = {pos_binaria_desordenada}, tiempo = {tiempo_binaria_desordenada:.6f} segundos ❌ (búsqueda inválida)\n")
 
-    # 2. Búsqueda Binaria en lista desordenada (resultado probablemente incorrecto)
-    tiempo_binaria_desordenada, indice_binaria_desordenada = medir_tiempo(busqueda_binaria, lista, objetivo)
-    print(f"Búsqueda Binaria (lista desordenada): índice {indice_binaria_desordenada}, tiempo {tiempo_binaria_desordenada:.6f} segundos (NO válida)\n")
+    # Ordenamiento con Bubble Sort
+    lista_bubble = lista_original.copy()
+    tiempo_bubble, _ = measure_time(bubble_sort, lista_bubble)
+    print(f"📊 Bubble Sort ordenó la lista en {tiempo_bubble:.6f} segundos")
 
-    # 3. Ordenamos la lista con QuickSort
-    tiempo_ordenar, lista_ordenada = medir_tiempo(quicksort, lista)
-    print(f"Lista ordenada con QuickSort en {tiempo_ordenar:.6f} segundos.\n")
+    # Ordenamiento con Insertion Sort
+    lista_insertion = lista_original.copy()
+    tiempo_insertion, _ = measure_time(insertion_sort, lista_insertion)
+    print(f"📊 Insertion Sort ordenó la lista en {tiempo_insertion:.6f} segundos")
 
-    # 4. Búsqueda Lineal en lista ordenada
-    tiempo_lineal_ordenada, indice_lineal_ordenada = medir_tiempo(busqueda_lineal, lista_ordenada, objetivo)
-    print(f"Búsqueda Lineal (lista ordenada): índice {indice_lineal_ordenada}, tiempo {tiempo_lineal_ordenada:.6f} segundos")
+    # Ordenamiento con Selection Sort
+    lista_selection = lista_original.copy()
+    tiempo_selection, _ = measure_time(selection_sort, lista_selection)
+    print(f"📊 Selection Sort ordenó la lista en {tiempo_selection:.6f} segundos")
 
-    # 5. Búsqueda Binaria en lista ordenada
-    tiempo_binaria, indice_binaria = medir_tiempo(busqueda_binaria, lista_ordenada, objetivo)
-    print(f"Búsqueda Binaria (lista ordenada): índice {indice_binaria}, tiempo {tiempo_binaria:.6f} segundos\n")
+    # Ordenamiento con QuickSort (devuelve lista nueva)
+    lista_quick = lista_original.copy()
+    tiempo_quick, lista_quick_ordenada = measure_time(quicksort, lista_quick)
+    print(f"📊 QuickSort ordenó la lista en {tiempo_quick:.6f} segundos\n")
 
-    # Resumen
-    print("Resumen rápido:")
-    print("- La búsqueda lineal siempre funciona, pero es lenta con listas grandes.")
-    print("- La búsqueda binaria es más rápida, pero requiere que la lista esté ordenada.")
-    print("- Ordenar los datos antes de buscar puede ahorrar tiempo si se hacen muchas búsquedas.")
-    print("- En logística, mantener inventarios ordenados mejora la eficiencia del sistema.")
+    # Usamos lista_quick_ordenada para búsquedas ordenadas
+
+    # Búsqueda en lista ordenada (QuickSort)
+    tiempo_lineal_ordenada, pos_lineal_ordenada = measure_time(linear_search, lista_quick_ordenada, objetivo)
+    print(f"🔍 Búsqueda lineal (depósito ordenado): producto encontrado en el casillero {pos_lineal_ordenada}, tiempo = {tiempo_lineal_ordenada:.6f} segundos")
+
+    tiempo_binaria, pos_binaria = measure_time(binary_search, lista_quick_ordenada, objetivo)
+    print(f"🔍 Búsqueda binaria (depósito ordenado): producto encontrado en el casillero {pos_binaria}, tiempo = {tiempo_binaria:.6f} segundos ✅\n")
+
+    print("📦 Resumen de la simulación logística:")
+    print("- La búsqueda lineal encuentra el producto siempre, pero es más lenta.")
+    print("- La búsqueda binaria es mucho más rápida, pero necesita que el inventario esté ordenado.")
+    print("- Ordenar los productos previamente mejora la eficiencia, especialmente si hay búsquedas frecuentes.")
+    print("- Los algoritmos de ordenamiento simples son demasiado lentos para grandes volúmenes, mientras que QuickSort ofrece un equilibrio ideal entre velocidad y practicidad.")
+    print("- En un entorno logístico real, mantener el inventario estructurado ahorra tiempo y recursos.\n")
+
+
+
 
 if __name__ == "__main__":
     main()
