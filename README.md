@@ -42,7 +42,9 @@ Se aplicaron distintos **algoritmos de ordenamiento y búsqueda** para comparar 
 
 ## 🎥 Video Explicativo
 
-🔗 [Ver video en YouTube](https://www.youtube.com/watch?v=VlrDV1vZzaU)
+🔗 [Ver video en YouTube](https://www.youtube.com/watch?v=1SfAQ_sqUMs)
+
+🔗 Link directo: https://www.youtube.com/watch?v=1SfAQ_sqUMs
 
 
 > El video cumple con las condiciones requeridas:
