@@ -42,7 +42,8 @@ Se aplicaron distintos **algoritmos de ordenamiento y búsqueda** para comparar 
 
 ## 🎥 Video Explicativo
 
-🔗 [Ver video en YouTube](https://youtu.be/osDIj2STcmU)
+🔗 [Ver video en YouTube](https://www.youtube.com/watch?v=VlrDV1vZzaU)
+
 
 > El video cumple con las condiciones requeridas:
 > - Presentación de los integrantes
